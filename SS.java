@@ -7,7 +7,7 @@ import java.util.List;
 public class SS {
 	static int[] arr;
 	public static void main(String[] args) {
-		    arr = new int[]{12,15,33,52,46,78,59,68,32,23,11};
+		    arr = new int[]{111,12,15,33,52,46,78,59,68,32,23,11,9,1234};
 			RS();
 		    //new SS().ms(arr);
 			System.out.println(Arrays.toString(arr));
@@ -53,6 +53,9 @@ public class SS {
 		int mid = (start+end)/2;
 		if(findMe == arr[mid]){
 			System.out.println("Index of "+findMe+ " is "+mid);
+		}else if(start >= end){
+			System.out.println("Not Found");
+			return;
 		}else if(findMe>arr[mid]){
 			BS(findMe, mid+1, end);
 		}else if(findMe < arr[mid]){
@@ -61,15 +64,18 @@ public class SS {
 	}
 	
 	public static void RS(){
-		//put in bucket
 		List<List<Integer>> buckets = new ArrayList<List<Integer>>(10);
-		int div = 1;
-		for(int j=0; j< 2; j++){
-			div = div*10;
+		int j=0;
+		for(j=0; j<10; j++){
+			buckets.add(new ArrayList<Integer>());
+		}
+		for(j=1; ; j++){
 			for(int i=0; i<arr.length; i++){
-				int bucketNo = arr[i]%div;
+				int bucketNo = getBucketNo(arr[i], j);
 				(buckets.get(bucketNo)).add(arr[i]);
 			}
+			if(buckets.get(0).size() == arr.length)
+				break;
 			//lets dequeue
 			int idx =0;
 			for(List<Integer> li: buckets){
@@ -82,7 +88,10 @@ public class SS {
 				}
 			}		
 		}
-		//till MSD
+	}
+	
+	static int getBucketNo(int number, int pos){
+		return (int) (number/Math.pow(10, pos-1))%10;
 	}
 	
 	public void is(int[] arr){
