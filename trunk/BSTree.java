@@ -1,4 +1,3 @@
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,38 +10,37 @@ public class BSTree {
 	class Node{
 	    Node parent, left, right;	
 		int val;
+		Node(Node parent, int val){
+			this.parent = parent;
+			this.val = val;
+		}
 	}
+	
 	
 	public void Add(int val){
 		if(root ==null){
-			Node node = new Node();
-			node.val = val;
-			node.parent = null;
+			Node node = new Node(null, val);
 			root = node;
 		}else {
 			Node local = root;
 			while(true){
-			if(val >= local.val ){
-				if(local.right == null){
-					Node node = new Node();
-					node.val = val;
-					node.parent = local;
-					local.right = node;
-					break;
-				}else{
-					local = local.right;
+				if(val >= local.val ){
+					if(local.right == null){
+						Node node = new Node(local, val);
+						local.right = node;
+						break;
+					}else{
+						local = local.right;
+					}
+				}else if(val < local.val){
+					if(local.left == null){
+						Node node = new Node(local, val);
+						local.left = node;
+						break;
+					}else{
+						local = local.left;
+					}
 				}
-			}else if(val < local.val){
-				if(local.left == null){
-					Node node = new Node();
-					node.val = val;
-					node.parent = local;
-					local.left = node;
-					break;
-				}else{
-					local = local.left;
-				}
-			}
 			}
 		}
 				
