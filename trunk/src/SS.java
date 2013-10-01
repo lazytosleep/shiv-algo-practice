@@ -11,7 +11,7 @@ public class SS {
 			RS();
 		    //new SS().ms(arr);
 			System.out.println(Arrays.toString(arr));
-			BS(9,0,arr.length-1);
+			//BS(9,0,arr.length-1);
 		
 	}
 	public void ss(int[] arr){
