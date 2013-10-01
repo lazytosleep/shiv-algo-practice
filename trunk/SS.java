@@ -49,19 +49,7 @@ public class SS {
 			else sorted[i] = aux[idx1++];
 		}
 	}
-	public static void BS(int findMe,int start, int end){
-		int mid = (start+end)/2;
-		if(findMe == arr[mid]){
-			System.out.println("Index of "+findMe+ " is "+mid);
-		}else if(start >= end){
-			System.out.println("Not Found");
-			return;
-		}else if(findMe>arr[mid]){
-			BS(findMe, mid+1, end);
-		}else if(findMe < arr[mid]){
-			BS(findMe, start, mid-1);
-		}
-	}
+	
 	
 	public static void RS(){
 		List<List<Integer>> buckets = new ArrayList<List<Integer>>(10);
@@ -90,8 +78,8 @@ public class SS {
 		}
 	}
 	
-	static int getBucketNo(int number, int pos){
-		return (int) (number/Math.pow(10, pos-1))%10;
+	public void QS(int[] arr){
+		
 	}
 	
 	public void is(int[] arr){
@@ -100,6 +88,15 @@ public class SS {
 				swap(j,j-1);
 			}
 		}
+	}
+	
+	
+	
+	
+	//Utilities ********************************************
+	
+	static int getBucketNo(int number, int pos){
+		return (int) (number/Math.pow(10, pos-1))%10;
 	}
 	public void swap(int x, int y){
 		int temp = arr[y];
