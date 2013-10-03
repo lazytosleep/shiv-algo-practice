@@ -70,10 +70,7 @@ public class Search {
 	}
 	
 	public static int MaxInMidCrossing(int[] arr, int start, int mid, int end){
-		int max =0;
-		int leftSum = 0;
-		int rightSum = 0;
-		int sum = 0;
+		int max =0, leftSum =0, rightSum =0 , sum = 0;
 		for(int i=mid; i>=start; i--){
 			sum = sum + arr[i];
 			if(leftSum < sum ) leftSum = sum;
@@ -85,6 +82,14 @@ public class Search {
 		}
 		max = rightSum + leftSum;
 		return max;
+	}
+	//::End
+	
+	//Q::Majority element in sorted array
+	public static int majorityElement(int[] arr){
+		int maj =0;
+		
+		return maj;
 	}
 	
 }
