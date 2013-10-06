@@ -8,6 +8,11 @@ public class Search {
 		System.out.println(BS_RotatedSortedArray(arr, 14));
 		System.out.println(BS_RotatedFindMin(arr));
 		System.out.println(maxContiSubArray(arr, 0, arr.length-1));
+		int occ=0, winner = 0;
+		arr = new int[]{1,1};
+		int[] winnerFre = new int[2];
+		majorityElement(arr, 0, arr.length-1, winnerFre);
+		System.out.println("Occu " +occ + " Winner "+winner );
 	}
 	public static int BS_NoRecur(int[] arr, int findMe){
 		int start = 0; 
@@ -86,10 +91,55 @@ public class Search {
 	//::End
 	
 	//Q::Majority element in sorted array
-	public static int majorityElement(int[] arr){
+	public static void majorityElement(int[] arr, int start, int end, int[] winnerFre ){
+		if(start >=end){
+			winnerFre[1] = 1;
+			winnerFre[0] = arr[start];
+			return; 
+		}
 		int maj =0;
+		int mid = (start + end)/2;
+		int oc1 =0, oc2 =0, oc3=0, w1 =0, w2 = 0, w3 = 0;
+		/*majorityElement(arr, start, mid, oc1, w1);
+		majorityElement(arr, mid+1, end, oc2, w2);
+		crossMidPoint(arr, start, mid, end, oc3, w3);
 		
-		return maj;
+		if(oc1 >= oc2 && oc1 >=oc3){
+			if(w1 == w2)
+				occurence = oc1+oc2;
+			if(w1 == w3)
+				occurence = occurence+oc3;
+			winner = w1;
+		}
+		if(oc2 >= oc3 && oc2 >=oc1){
+			if(w2 == w3)
+				occurence = oc2+oc3;
+			if(w2 == w1)
+				occurence = occurence+oc1;
+			winner = w2;
+		}
+		if(oc3 >= oc2 && oc3 >=oc1){
+			if(w3 == w2)
+				occurence = oc3+oc2;
+			if(w3 == w1)
+				occurence = occurence+oc1;
+			winner = w3;
+		}*/
+		
 	}
+	
+	public static void crossMidPoint(int[] arr, int start, int mid, int end, int occ, int winner){
+		
+		for(int i=mid; i>=0 && arr[i]== arr[mid]; i--){
+			occ++;
+		}
+		for(int i=mid+1; i<= end && arr[i]==arr[mid]; i++){
+			occ++;
+		}
+		if(occ>0)winner = arr[mid];
+		
+	}
+	
+	//Q: no of occurence in sorted array
 	
 }
