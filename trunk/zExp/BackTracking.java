@@ -5,7 +5,7 @@
 */
 public class BackTracking {
 	public static void main(String[] args) {
-		
+		//Q1
 		int[][] sudoku = 
 		{{3,0,6, 5,0,8, 4,0,0},
 		 {5,2,0, 0,0,0, 0,0,0},
@@ -19,7 +19,6 @@ public class BackTracking {
 		 {0,0,0, 0,0,0, 0,7,4},
 		 {0,0,5, 2,0,6, 3,0,0}};
 		solveSudoku(sudoku, 0,0);
-		
 		printSudoku(sudoku);
 		
 	}
@@ -42,7 +41,6 @@ public class BackTracking {
 			}
 		}
 		return false;
-		
 	}
 	
 	public static boolean isValid(int[][] arr,int row, int col, int x){
@@ -50,10 +48,8 @@ public class BackTracking {
 			if(arr[row][i] == x) return false;
 			if(arr[i][col] == x) return false;
 		}
-		
 		int startRow = row -row%3;
 		int startCol = col -col%3;
-		
 		for(int i=0; i<3; i++){
 			for(int j=0; j<3; j++){
 				if(arr[startRow +i][startCol +j] == x) return false;
