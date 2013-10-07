@@ -1,3 +1,7 @@
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /*
  *Backtracking is a refinement of the brute force approach, which systematically searches for a solution to a problem among all available options.
   It does so by assuming that the solutions are represented by vectors (v1, ..., vm) of values and by traversing, in a depth first manner, 
@@ -66,4 +70,44 @@ public class BackTracking {
 			}
 		}
 	}
+	
+	//:End
+	
+	//Q2: Print subsets, given weight, target, subset
+	
+	public static boolean getSubSet(int[] arr,int size, int target, List<Set<Integer>> subList){
+		Set<Integer> set = subList.get(subList.size() -1);
+		if(set.size() == size) return true;
+		for(int i=0; i<arr.length; i++){
+			if(isValid(set, arr[i], target, size)){
+	           if(set.size() == (size-1)){
+	        	//   subList.add();
+	           }
+	           if(getSubSet(arr, size, target, subList)){
+	        	   
+	           }
+	           
+			}
+			
+		}
+		return false;
+	}
+	
+	public static boolean isValid(Set<Integer> set, int x, int target, int size){
+        int sum= 0;
+        for(Integer val : set){
+        	sum = sum+val;
+        }
+		sum = sum+x;
+		if((sum) >target  || ((set.size()+1 == size) && sum !=target) ) return false;
+		return true;
+	}
+	
+	//Q2: Combination no repetition
+	
+	//Q3: Combination repetition allowed
+	
+	
+	
+	
 }
