@@ -2,9 +2,10 @@
 public class DynamicProgramming {
 	
 	public static void main(String[] args) {
-		System.out.println(optimumCutBF(8));
+		System.out.println(optimumCutBF(10));
 		System.out.println(isSubSetSum(new int[]{1,4,2,5,6},5, 3 ));
-		System.out.println(chechPalinBF("ababcdabbadcaaa"));
+		System.out.println(chechPalinBF("elephant"));
+		System.out.println(checkPalinDP("abaacdeffedcbab"));
 	}
 
 	//Q1: cut the rope to maximize the product
@@ -33,7 +34,7 @@ public class DynamicProgramming {
 	}
 	
 	//Q3 : Longest palindrome sub string
-	//fix at beginning and reduce from end, run inner loop between
+	//get all possible substring, (two outer loops); check if substrings are palindrome (inner loop)
 	public static String chechPalinBF(String str){
 		int start =0 , end = 0;
 		for(int i=0; i< str.length(); i++){
@@ -54,5 +55,40 @@ public class DynamicProgramming {
 		if((end -start) >0) return str.substring(start, end +1);
 		return null;
 	}
+	
+	//DP approach, Palin(i,j) = str(i) == str(j) && Palin(i+1, j-1) ==> if aba is palin then pabaq is also a palin if p = q
+	//Lets make a boolean table starting index and ending index as axis; enter true when palin
+	//base cases need to be prepopulated, those are string of length 1 and 2, then compute others on bottom up manner
+	 public static String checkPalinDP(String str){
+		 int palinLength = 0;
+		 String palin=null;
+		 int len = str.length();
+		 boolean[][] isPalinTable = new boolean[len][len];
+		 //Populate base case, len 1 and len 2  aba odd, abba even for base case 1 and 2 respectively
+		 for(int i=0;i<len; i++ ){
+			 isPalinTable[i][i] = true;
+		 }
+		 for(int i=0; i<len-1; i++){
+			 isPalinTable[i][i+1] = true;
+		 }
+		 //Lets write it in bottom up manner
+		 for(int l=3;l<= len; l++ ){
+			 for(int i=0; i<(len-l); i++){
+				 if(str.charAt(i) == str.charAt(i+l-1) && isPalinTable[i+1][i+l-2]){
+					 isPalinTable[i][i+l-1] = true;
+					 if(l > palinLength){
+						 palinLength = l;
+						 palin = str.substring(i, i+l);
+					 }
+				 }
+			 }
+		 }
+		 System.out.println("Palin length "+palinLength + " :: "+palin);
+		 return palin;
+	 }
+	
+	
+	
+	
 	
 }
