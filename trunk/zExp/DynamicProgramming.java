@@ -87,7 +87,7 @@ public class DynamicProgramming {
 		 return palin;
 	 }
 	
-	
+	//Q: LCS, longest common subsequence  abc is subsequence of xayybc
 	
 	
 	
