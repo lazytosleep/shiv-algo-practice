@@ -4,6 +4,7 @@ public class DynamicProgramming {
 	public static void main(String[] args) {
 		System.out.println(optimumCutBF(8));
 		System.out.println(isSubSetSum(new int[]{1,4,2,5,6},5, 3 ));
+		System.out.println(chechPalinBF("ababcdabbadcaaa"));
 	}
 
 	//Q1: cut the rope to maximize the product
@@ -31,5 +32,27 @@ public class DynamicProgramming {
 		return isSubSetSum(arr, n-1, sum) || isSubSetSum(arr, n-1, sum-arr[n-1]);
 	}
 	
+	//Q3 : Longest palindrome sub string
+	//fix at beginning and reduce from end, run inner loop between
+	public static String chechPalinBF(String str){
+		int start =0 , end = 0;
+		for(int i=0; i< str.length(); i++){
+			int j=0;
+			for(j= (str.length()-1); j>i;j--){
+                int k=i,l=j;
+				for(k=i; k<l;l--,k++){
+					if(str.charAt(k)!= str.charAt(l)){
+                		break;
+                	}
+                }
+				if(k>=l) break;
+			}
+			if(j >i  && (j-i) > (end -start) ){
+				start = i; end = j;
+			}
+		}
+		if((end -start) >0) return str.substring(start, end +1);
+		return null;
+	}
 	
 }
