@@ -6,6 +6,7 @@ public class DynamicProgramming {
 		System.out.println(isSubSetSum(new int[]{1,4,2,5,6},5, 3 ));
 		System.out.println(chechPalinBF("elephant"));
 		System.out.println(checkPalinDP("abaacdeffedcbab"));
+		System.out.println(getLCS("xxaybccdx", "yaxcbxdm"));
 	}
 
 	//Q1: cut the rope to maximize the product
@@ -88,6 +89,24 @@ public class DynamicProgramming {
 	 }
 	
 	//Q: LCS, longest common subsequence  abc is subsequence of xayybc
+	public static int getLCS(String str1, String str2){
+		int max =0 ;
+		if(str1.length() == 0 || str2.length() ==0){
+			return 0; 
+		}
+		int i= str1.length()-1;
+		int j = str2.length()-1;
+        if(str1.charAt(i) == str2.charAt(j)){
+        	max = getLCS(str1.substring(0,i), str2.substring(0,j)) + 1;
+        }else{
+        	max = greater(getLCS(str1.substring(0,i), str2), getLCS(str1, str2.substring(0,j)));
+        }
+        return max;
+	}
+	 
+	public static int greater(int i, int j){
+		return i>j?i:j;
+	}
 	
 	
 	
