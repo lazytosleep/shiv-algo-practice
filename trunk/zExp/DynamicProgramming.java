@@ -9,6 +9,7 @@ public class DynamicProgramming {
 		System.out.println(chechPalinBF("elephant"));
 		System.out.println(checkPalinDP("abaacdeffedcbab"));
 		System.out.println(getLCS("xxaybccdx", "yaxcbxdm"));
+		System.out.println(getLCSDP("xxaybccdx", "yaxcbxdm"));
 	}
 
 	//Q1: cut the rope to maximize the product
@@ -127,7 +128,24 @@ public class DynamicProgramming {
         return max;
 	}
     //Solve it using DP, bottom up approach
-	
+	public static int getLCSDP(String str1, String str2){
+		int [][] resultTable = new int[str1.length()+1][str2.length()+1];
+		
+		for(int i=0; i<=str1.length(); i++){
+			for(int j=0; j<=str2.length(); j++){
+				if(i==0 || j==0){
+					resultTable[i][j] = 0;
+					continue;
+				}
+				if(str1.charAt(i-1)==str2.charAt(j-1)){
+					resultTable[i][j] = resultTable[i-1][j-1] + 1;
+				}else{ 
+					resultTable[i][j] = greater(resultTable[i-1][j], resultTable[i][j-1]);
+				}
+			}
+		}
+		return resultTable[str1.length()][str2.length()];
+	}
 	
 	//Utility functions 
 	public static int greater(int i, int j){
