@@ -2,7 +2,9 @@
 public class DynamicProgramming {
 	
 	public static void main(String[] args) {
-		System.out.println(optimumCutBF(10));
+		System.out.println(optimumCutBF(13));
+		System.out.println(optimizedCutDP(10, new int[10]));
+		System.out.println(optimizedCutDP_BU(13));
 		System.out.println(isSubSetSum(new int[]{1,4,2,5,6},5, 3 ));
 		System.out.println(chechPalinBF("elephant"));
 		System.out.println(checkPalinDP("abaacdeffedcbab"));
@@ -20,9 +22,30 @@ public class DynamicProgramming {
 		return max;
 	}
 	
-	//Optimized cut DP
-	public static int optimizedCutDP(int n){
+	//Optimized cut DP//memoized
+	public static int optimizedCutDP(int n, int[] arr){
 		int max =1;
+		if(n==0) return 1;
+		if(arr[n-1]>=max) return arr[n-1];
+		for(int i=1; i<= n; i++){
+			max= greater(max,i* optimizedCutDP(n-i, arr));
+			arr[n-1] = max;
+		}
+		return max;
+	}
+	
+	//Optimized cut DP-bottom up
+	//j->
+	public static int optimizedCutDP_BU(int n){
+		int max=1;
+		int[] optCut = new int [n+1];
+		optCut[0] = 1;
+		for(int i=1; i<=n ; i++){
+			for(int j=1; j<=i; j++){
+				max = greater(max, (j)*optCut[i-j]); //Notice, here recursive call is not needed as in memoization since we already calculate needed result for a particular calculation
+			}                                        //Best way to understand it, draw a recursion tree(value of variables over recursion), and travel from bottom 
+			optCut[i] = max;
+		}
 		return max;
 	}
 	
@@ -103,9 +126,12 @@ public class DynamicProgramming {
         }
         return max;
 	}
-	 
+    //Solve it using DP, bottom up approach
+	
+	
+	//Utility functions 
 	public static int greater(int i, int j){
-		return i>j?i:j;
+		return i>=j?i:j;
 	}
 	
 	
