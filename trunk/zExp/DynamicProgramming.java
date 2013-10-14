@@ -147,6 +147,18 @@ public class DynamicProgramming {
 		return resultTable[str1.length()][str2.length()];
 	}
 	
+	//Q : If Strings are interleaved 
+	public static boolean isInterleaved(String str1, String str2, String comb){
+		if(str1.length() ==0 && str2.length() ==0) return true;
+		if(comb.length() == 0) return false;
+		char combCh = comb.charAt(0);
+		if((str1.length() >0 && combCh == str1.charAt(0)) || (str2.length() > 0 && combCh == str2.charAt(0))){
+			return isInterleaved(str1.substring(1), str2, comb.substring(1)) || isInterleaved(str1, str2.substring(1), comb.substring(1)); 
+		}else{
+			return isInterleaved(str1.substring(1), str2, comb.substring(1));
+		}
+	}
+	
 	//Utility functions 
 	public static int greater(int i, int j){
 		return i>=j?i:j;
