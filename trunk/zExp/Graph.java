@@ -31,5 +31,9 @@ public class Graph {
 		gr.addEdge(0, 4);
 		gr.addEdge(3, 1);
 	}
+    
+    public static void DFS(){
+    	
+    }
 
 }
