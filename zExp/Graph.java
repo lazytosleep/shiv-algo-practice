@@ -8,8 +8,10 @@ public class Graph {
 	//no of edges
 	int E;
 	List<List<Integer>> adjList;
+	boolean [] isSeen ;
     public Graph(int v){
     	this.V= v;
+    	isSeen = new boolean[v];
     	adjList = new ArrayList<List<Integer>>(v);
     	for(int i=0; i<v; i++){
     		List<Integer> li = new ArrayList<Integer>();
@@ -30,9 +32,26 @@ public class Graph {
 		gr.addEdge(2, 3);
 		gr.addEdge(0, 4);
 		gr.addEdge(3, 1);
+		gr.DFS(null, 3);
 	}
     
-    public static void DFS(){
+    public void DFS(List<Integer> list, int x){
+    	list= list == null ? adjList.get(0): list;
+    	for(int i=0; i<list.size(); i++){
+    		int node = list.get(i);
+    		if(node == x){
+    			System.out.println("Got it ");
+    		}
+    		if(isSeen[node]){
+    			continue;
+    		}else{
+    			isSeen[node] = true;
+    			DFS(adjList.get(node),x);
+    		}
+    	}
+    }
+    
+    public void BFS(){
     	
     }
 
