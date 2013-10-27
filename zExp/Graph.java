@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import sun.misc.Queue;
+
 
 public class Graph {
 	//no of vertex
@@ -33,6 +35,7 @@ public class Graph {
 		gr.addEdge(0, 4);
 		gr.addEdge(3, 1);
 		gr.DFS(null, 3);
+		gr.BFS();
 	}
     
     public void DFS(List<Integer> list, int x){
@@ -50,9 +53,39 @@ public class Graph {
     		}
     	}
     }
-    
+    //BFS is base of minimum spanning tree, Dejishta algo
     public void BFS(){
-    	
+    	for(int i=0; i<isSeen.length; i++){
+    		isSeen[i] = false;
+    	}
+    	Queue q = new Queue();//Just changing this to stack would make it dfs
+    	q.enqueue(0);
+    	try {
+			while(!q.isEmpty()){
+				int vertex = (Integer)q.dequeue();
+				for(int i=0; i<adjList.get(vertex).size(); i++){
+					int currV = adjList.get(vertex).get(i);
+					if(!isSeen[currV]){
+						isSeen[currV] = true;
+						q.enqueue(currV);	
+					}
+				}
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Lets print all vertex to see if they are visited
+		boolean allSeen = true;
+    	for(int i=0; i<isSeen.length; i++){
+    		if(!isSeen[i]){
+    			allSeen = false;
+    			break;
+    		}
+    	}
+    	System.out.println("Is All vertex visited :: "+allSeen);
     }
+    
+   
 
 }
