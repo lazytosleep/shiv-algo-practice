@@ -10,6 +10,7 @@ public class DynamicProgramming {
 		System.out.println(checkPalinDP("abaacdeffedcbab"));
 		System.out.println(getLCS("xxaybccdx", "yaxcbxdm"));
 		System.out.println(getLCSDP("xxaybccdx", "yaxcbxdm"));
+		System.out.println(getMinCoinsForASum(14, new int[]{1,2,3,5}));
 	}
 
 	//Q1: cut the rope to maximize the product
@@ -158,6 +159,26 @@ public class DynamicProgramming {
 			return isInterleaved(str1.substring(1), str2, comb.substring(1));
 		}
 	}
+	
+	//Get sum with min coins 
+	public static int getMinCoinsForASum(int sum, int[] coins){
+		int noCoins = 0;
+		int[] minCoin = new int[sum+1];
+		minCoin[0] = 0;
+		for(int i=1; i<=sum; i++){
+			minCoin[i] = 999999; //infinite
+		}
+		for(int i=1; i<=sum; i++){ //First loop for transition form one state to another
+			for(int j=0; j<coins.length; j++){//try all possible transition from higher to lower value
+				if(coins[j] <= i && ((minCoin[i-coins[j]] + 1) < minCoin[i]) ){
+					minCoin[i] = minCoin[i-coins[j]] + 1;
+				}
+			}
+		}
+		return minCoin[sum];
+		
+	}
+	
 	
 	//Utility functions 
 	public static int greater(int i, int j){
