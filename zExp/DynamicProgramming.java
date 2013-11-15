@@ -11,6 +11,7 @@ public class DynamicProgramming {
 		System.out.println(getLCS("xxaybccdx", "yaxcbxdm"));
 		System.out.println(getLCSDP("xxaybccdx", "yaxcbxdm"));
 		System.out.println(getMinCoinsForASum(14, new int[]{1,2,3,5}));
+		System.out.println(getMaxNonDecreasingSequence(new int[]{1,5,6,2,3,4}));
 	}
 
 	//Q1: cut the rope to maximize the product
@@ -177,6 +178,31 @@ public class DynamicProgramming {
 		}
 		return minCoin[sum];
 		
+	}
+	
+	//longest non decreasing sequence
+	public static int getMaxNonDecreasingSequence(int[] sequence){
+		int seqLength = 0;
+		int[] maxLength = new int[sequence.length];
+		for(int i=0; i<maxLength.length; i++){
+			maxLength[i] = 1;
+		}
+		for(int i=0; i<maxLength.length; i++){
+			for(int j=0; j<i; j++){
+				if(sequence[i] > sequence[j]){
+					maxLength[i] = maxLength[j] +1;
+					seqLength = maxLength[i] > seqLength ? maxLength[i] : seqLength;
+				}
+			}
+		}
+		return seqLength;
+	}
+	
+	//Lonest ap
+	public static int getMaxAP(int[] seq){
+		
+		
+		return 6;
 	}
 	
 	
