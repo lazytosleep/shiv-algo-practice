@@ -12,6 +12,7 @@ public class DynamicProgramming {
 		System.out.println(getLCSDP("xxaybccdx", "yaxcbxdm"));
 		System.out.println(getMinCoinsForASum(14, new int[]{1,2,3,5}));
 		System.out.println(getMaxNonDecreasingSequence(new int[]{1,5,6,2,3,4}));
+		System.out.println(maxNonConsecutiveSum(new int[]{1,4,2,3,5,7,8}));
 	}
 
 	//Q1: cut the rope to maximize the product
@@ -203,6 +204,23 @@ public class DynamicProgramming {
 		
 		
 		return 6;
+	}
+	
+	public static int maxNonConsecutiveSum(int[] arr){
+		int max = 0;
+		int[] maxSum = new int[arr.length];
+		for(int i=0; i<arr.length; i++){
+			maxSum[i] = arr[i];
+		}
+		for(int i=0; i< arr.length; i++){
+			for(int j=i-2; j>0 && j>=i-3; j--){
+				if(maxSum[i] < maxSum[j] + arr[i]){
+					maxSum[i] = maxSum[j] + arr[i];
+					max = maxSum[i] > max ? maxSum[i] : max;
+				}
+			}
+		}
+		return max;
 	}
 	
 	
