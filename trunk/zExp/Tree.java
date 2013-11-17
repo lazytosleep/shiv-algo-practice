@@ -52,6 +52,11 @@ public class Tree {
 		return high.key;
 	}
 	
+	//Tree travsersal
+	//Pre-order element picked on first touch 1, post order element picked on third3 & last touch, in order element picked on second2 touch
+	//      |1  X   |3
+	//          -2
+	
 	public static void main(String[] args) {
 		Tree t = new Tree();
 		t.add(100);t.add(30);t.add(20);t.add(50);t.add(40);t.add(70);t.add(43);
