@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 
 public class Tree {
 	
@@ -5,6 +9,7 @@ public class Tree {
 	class Node{
 		Node left, right;
 		int key;
+		boolean isVisited;
 		Node(int k){
 			this.key = k;
 		}
@@ -56,12 +61,37 @@ public class Tree {
 	//Pre-order element picked on first touch 1, post order element picked on third3 & last touch, in order element picked on second2 touch
 	//      |1  X   |3
 	//          -2
+	public List<String> preOrderTraversal(Tree t){
+		Stack<Node> stack = new Stack<Node>();
+		List<String> preOrder = new ArrayList<String>();
+		Node curr = t.root;
+		stack.push(curr);
+		while(stack.size() > 0){
+			curr = stack.peek();
+			if(!curr.isVisited){
+				preOrder.add(curr.key+"");
+				curr.isVisited = true;
+			}
+			if(curr.left !=null && !curr.left.isVisited){
+				curr = curr.left;
+				stack.push(curr);
+			}else if(curr.right !=null && !curr.right.isVisited){
+				curr = curr.right;
+				stack.push(curr);
+			}else{
+				stack.pop();
+			}
+		}
+		return preOrder;
+	}
+	
 	
 	public static void main(String[] args) {
 		Tree t = new Tree();
 		t.add(100);t.add(30);t.add(20);t.add(50);t.add(40);t.add(70);t.add(43);
 		System.out.println(t.floor(28));
 		System.out.println(t.ceil(101));
+		System.out.println((t.preOrderTraversal(t)).toString());
 	}
 
 }
