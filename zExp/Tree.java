@@ -61,7 +61,7 @@ public class Tree {
 	//Pre-order element picked on first touch 1, post order element picked on third3 & last touch, in order element picked on second2 touch
 	//      |1  X   |3
 	//          -2
-	public List<String> preOrderTraversal(Tree t){
+	public List<String> preOrderTraversal(Tree t, int order){
 		Stack<Node> stack = new Stack<Node>();
 		List<String> preOrder = new ArrayList<String>();
 		Node curr = t.root;
@@ -69,6 +69,7 @@ public class Tree {
 		while(stack.size() > 0){
 			curr = stack.peek();
 			if(!curr.isVisited){
+				if(order==1)
 				preOrder.add(curr.key+"");
 				curr.isVisited = true;
 			}
@@ -78,8 +79,12 @@ public class Tree {
 			}else if(curr.right !=null && !curr.right.isVisited){
 				curr = curr.right;
 				stack.push(curr);
+				if(order==2)
+					preOrder.add(curr.key+"");
 			}else{
 				stack.pop();
+				if(order==3)
+					preOrder.add(curr.key+"");
 			}
 		}
 		return preOrder;
@@ -91,7 +96,7 @@ public class Tree {
 		t.add(100);t.add(30);t.add(20);t.add(50);t.add(40);t.add(70);t.add(43);
 		System.out.println(t.floor(28));
 		System.out.println(t.ceil(101));
-		System.out.println((t.preOrderTraversal(t)).toString());
+		System.out.println((t.preOrderTraversal(t,3)).toString());
 	}
 
 }
