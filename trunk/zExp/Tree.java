@@ -90,6 +90,21 @@ public class Tree {
 		return preOrder;
 	}
 	
+	public int height(Tree t){
+		int height = 0;
+		if(t.root == null)return height;
+		else return subTreeHeight(t.root);
+	}
+	
+	public int subTreeHeight(Node n){
+		   int leftHeight =0;
+		   int rightHeight = 0;
+		   if(n.left !=null) leftHeight = subTreeHeight(n.left) + 1;
+		   if(n.right !=null) rightHeight = subTreeHeight(n.right) + 1;
+	       if(leftHeight >=rightHeight)return leftHeight;
+	       else return rightHeight;
+	}
+	
 	
 	public static void main(String[] args) {
 		Tree t = new Tree();
@@ -97,6 +112,7 @@ public class Tree {
 		System.out.println(t.floor(28));
 		System.out.println(t.ceil(101));
 		System.out.println((t.preOrderTraversal(t,3)).toString());
+		System.out.println(t.height(t));
 	}
 
 }
