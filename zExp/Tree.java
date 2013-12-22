@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 
@@ -90,13 +92,58 @@ public class Tree {
 		return preOrder;
 	}
 	
-	public int height(Tree t){
-		int height = 0;
-		if(t.root == null)return height;
-		else return subTreeHeight(t.root);
+	static void areLeafsAtTheSameLevel(Tree t){
+		if(t.root ==null) return;
+		System.out.println(traverseNodes(t.root, 1)>=1);
 	}
 	
-	public int subTreeHeight(Node n){
+	static int traverseNodes(Node n, int currlevel){
+		 if(n==null)return currlevel-1;
+		 if(n.left ==null && n.right ==null){
+			 return currlevel;
+		 }
+		 if(traverseNodes(n.left, currlevel+1)!=traverseNodes(n.right, currlevel+1)){
+			 return -1;
+		 }else return currlevel + 1;
+	}
+	
+	static void printTree(Tree t){
+		if(t.root == null)return;
+		int currLevelOffset = height(t);
+        Queue<Node> q = new LinkedList<Tree.Node>();
+        q.add(t.root);
+        while(q.size()>0){
+        	Node n = q.poll();
+        	if(n==null){
+        		System.out.println();
+        		currLevelOffset--;
+        	}
+        }
+	}
+	 static void printNode(Node n, int offset){
+		 for(int i=0; i<offset; i++) System.out.print("\t");
+		 System.out.print(n.key);
+	 }
+	
+	public static void widthFirstTraversal(Tree t){
+		if(t.root == null)return;
+		Queue<Node> q = new LinkedList<Node>();
+		q.add(t.root);
+		while(q.size() >0){
+			Node n = q.poll();
+			System.out.print(n.key+"\t");
+			if(n.left !=null) q.add(n.left);
+			if(n.right !=null) q.add(n.right);
+		}
+	}
+	
+	public static int height(Tree t){
+		int height = 0;
+		if(t.root == null)return height;
+		else return subTreeHeight(t.root)+1;
+	}
+	
+	public static int subTreeHeight(Node n){
 		   int leftHeight =0;
 		   int rightHeight = 0;
 		   if(n.left !=null) leftHeight = subTreeHeight(n.left) + 1;
@@ -108,11 +155,13 @@ public class Tree {
 	
 	public static void main(String[] args) {
 		Tree t = new Tree();
-		t.add(100);t.add(30);t.add(20);t.add(50);t.add(40);t.add(70);t.add(43);
+		t.add(100);t.add(30);t.add(20);t.add(50);t.add(40);t.add(70);t.add(43);t.add(200);
 		System.out.println(t.floor(28));
 		System.out.println(t.ceil(101));
 		System.out.println((t.preOrderTraversal(t,3)).toString());
 		System.out.println(t.height(t));
+		t.widthFirstTraversal(t);
+		areLeafsAtTheSameLevel(t);
 	}
 
 }
