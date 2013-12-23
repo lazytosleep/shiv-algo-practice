@@ -92,6 +92,20 @@ public class Tree {
 		return preOrder;
 	}
 	
+	static void isSumTree(Tree t){
+		if(t.root == null) return;
+		checkSumTree(t.root);
+	}
+	
+	private static int checkSumTree(Node n){
+		 if(n == null) return 0;
+		 if(n.left ==null && n.right ==null)return n.key;
+		 int sum = checkSumTree(n.left) + checkSumTree(n.right);
+		 if(n.key !=sum){
+			 System.out.println("Not a sum tree");
+		 }
+		 return sum;
+	}
 	static void areLeafsAtTheSameLevel(Tree t){
 		if(t.root ==null) return;
 		System.out.println(traverseNodes(t.root, 1)>=1);
@@ -162,6 +176,7 @@ public class Tree {
 		System.out.println(t.height(t));
 		t.widthFirstTraversal(t);
 		areLeafsAtTheSameLevel(t);
+		isSumTree(t);
 	}
 
 }
