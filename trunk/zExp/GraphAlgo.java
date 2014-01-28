@@ -17,6 +17,59 @@ public class GraphAlgo {
 	
 }
 
+class EdgeWeightedDiGraph{
+	List<Edge>[] adjEdgeList;
+	int[] parent;
+	double[] vertexWt;  
+	int size;
+	public EdgeWeightedDiGraph(int size) {
+		adjEdgeList = new List[size+1];
+		for(int i=0; i<=size; i++){
+			adjEdgeList[i]= new ArrayList<Edge>();
+		}
+		this.size = size;
+	}
+	public void addEdge(int from, int to, int wt){
+		Edge edge = new Edge(from, to, wt);
+		adjEdgeList[from].add(edge);
+	}
+	
+	public void dijkstra(int source){
+		//initialize vertexwt
+		vertexWt = new double[size+1];
+		parent = new int[size+1];
+		for(int i=0; i<=vertexWt.length;i++){
+			vertexWt[i] = Double.POSITIVE_INFINITY;
+		}
+		vertexWt[source] = 0;
+		PriorityQueue<Integer> vertexQueue = new PriorityQueue<Integer>();
+		vertexQueue.add(source);
+		while(!vertexQueue.isEmpty()){
+			int from = vertexQueue.remove();
+			for(Edge e: adjEdgeList[from]){
+				int to = e.to;
+				if(vertexWt[to] > e.wt + vertexWt[from]){
+					vertexWt[to] = e.wt + vertexWt[from];
+					parent[to] = from;
+				}
+			}
+		}
+	}
+    
+	public List shortestPath(int source, int target){
+		List<Integer> path = new ArrayList<Integer>();
+		int node = target;
+		while(parent[node] !=source){
+			path.add(parent[node]);
+			node = parent[node];
+		}
+		return path;
+	}
+	
+	
+	
+}
+
 class EdgeWeightedGraph{
 	List<Edge>[] adjList;
 	boolean[] isSeen;
@@ -32,7 +85,9 @@ class EdgeWeightedGraph{
 		adjList[u].add(edge);
 		adjList[v].add(edge);
 	}
-	
+	/*@
+	 * MST 
+	 */
 	public List markMST(){
 		PriorityQueue<Edge> pq  = new PriorityQueue<Edge>();
 		List<Edge> minSpnningTree = new ArrayList<Edge>() ; 
