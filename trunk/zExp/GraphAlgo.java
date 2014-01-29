@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -13,6 +14,18 @@ public class GraphAlgo {
 		graph.addEdge(2,4,9);
 		graph.addEdge(4,5,8);
 		System.out.println(graph.markMST());
+		EdgeWeightedDiGraph diGraph = new EdgeWeightedDiGraph(6);
+		diGraph.addEdge(1, 2, 1);
+		diGraph.addEdge(1, 3, 3);
+		diGraph.addEdge(1, 4, 20);
+		diGraph.addEdge(2, 3, 1);
+		diGraph.addEdge(2, 5, 8);
+		diGraph.addEdge(3, 5, 2);
+		diGraph.addEdge(3, 6, 16);
+		diGraph.addEdge(5, 6, 2);
+		diGraph.addEdge(4, 6, 1);
+		System.out.println(diGraph.shortestPath(2, 6));
+	    
 	}
 	
 }
@@ -38,7 +51,7 @@ class EdgeWeightedDiGraph{
 		//initialize vertexwt
 		vertexWt = new double[size+1];
 		parent = new int[size+1];
-		for(int i=0; i<=vertexWt.length;i++){
+		for(int i=0; i<=size;i++){
 			vertexWt[i] = Double.POSITIVE_INFINITY;
 		}
 		vertexWt[source] = 0;
@@ -52,17 +65,21 @@ class EdgeWeightedDiGraph{
 					vertexWt[to] = e.wt + vertexWt[from];
 					parent[to] = from;
 				}
+				vertexQueue.add(to);
 			}
 		}
 	}
     
 	public List shortestPath(int source, int target){
+		dijkstra(source);
 		List<Integer> path = new ArrayList<Integer>();
 		int node = target;
-		while(parent[node] !=source){
-			path.add(parent[node]);
+		while(parent[node] !=0){
+			path.add(node);
 			node = parent[node];
 		}
+		path.add(source);
+		Collections.reverse(path);
 		return path;
 	}
 	
