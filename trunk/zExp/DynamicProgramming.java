@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 
 public class DynamicProgramming {
 	
@@ -13,6 +15,7 @@ public class DynamicProgramming {
 		System.out.println(getMinCoinsForASum(14, new int[]{1,2,3,5}));
 		System.out.println(getMaxNonDecreasingSequence(new int[]{1,5,6,2,3,4}));
 		System.out.println(maxNonConsecutiveSum(new int[]{7, 7, 7, 7, 7, 7, 7}));
+		System.out.println(fillArray(new int[]{1,1,2,2,2,3,3,4,4}));
 	}
 
 	//Q1: cut the rope to maximize the product
@@ -221,6 +224,72 @@ public class DynamicProgramming {
 			}
 		}
 		return max;
+	}
+	
+	//Fill the elements in array inplace of zero, in increasing order, elements should repeat atleast twice and at max 5 times
+	//State change [0010000203]
+	public static boolean fillArray(int[] arr){
+		int i = 0;
+		//boolean[]isSolvable = new booelan[arr.length];
+		boolean solvable = true;
+		int minLastState = 0; 
+		int lastVal =0;
+		int maxOccur = 5;
+		int minOccur  = 2;
+		for(; i<arr.length; i++){
+			int nonZeroVal =0;
+			int nonZeroIdx =0;
+			if(arr[i]!=0){
+				nonZeroIdx = i;
+				nonZeroVal = arr[i];
+			}else{
+				if(i == arr.length -1 && lastVal ==0){
+					nonZeroVal = arr.length/2;
+					nonZeroIdx = arr.length-1;
+				}else
+				continue; 
+			}
+			
+			if(lastVal == nonZeroVal){
+				for(int idx=minLastState; idx<=nonZeroIdx; idx++, minLastState++){
+					arr[minLastState] = nonZeroVal;
+				}
+				
+			}else{
+			for(int x=lastVal+1; x<=nonZeroVal; x++){
+				
+				int occurCount = 1;
+				for(;(occurCount<=minOccur || (minLastState <= nonZeroIdx && occurCount<=maxOccur && x==nonZeroVal))&& (minLastState <arr.length) && (arr[minLastState] ==0 || arr[minLastState] == x); occurCount++, minLastState++){
+					arr[minLastState] = x;
+				}
+				if(occurCount <3){
+					solvable = false;
+					break; 
+				}
+			}
+			}
+			if(minLastState > i){
+				i = minLastState-1;
+			}
+			if(!solvable)break; 
+			lastVal = nonZeroVal;
+		}
+		if(arr[arr.length -1] ==0){
+			int noOfInts = arr.length - minLastState; 
+			int itr = 1;
+			if(arr.length - minLastState >= 2) lastVal ++;
+			for(int x =minLastState; x<arr.length; x++ ){
+				if(itr > 2 && arr.length-x >= 2){
+					itr = 1;
+					lastVal++;
+				}
+				arr[x] = lastVal;
+				itr ++;
+			}
+		}
+		if(!solvable)System.out.println(-1);
+		else System.out.println(Arrays.toString(arr));
+		return false;
 	}
 	
 	
