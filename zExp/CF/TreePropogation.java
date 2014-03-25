@@ -5,6 +5,24 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
+/*
+5 5
+1 2 1 1 2
+1 2
+1 3
+2 4
+2 5
+1 2 3
+1 1 2
+2 1
+2 2
+2 4
+
+3
+3
+0
+ */
+
 public class TreePropogation {
     List<Integer> node[];
 	int[] val = null;
@@ -16,7 +34,7 @@ public class TreePropogation {
 	
 	
 	public void update(int pos, int val){
-		for(;pos<=40000; pos = (pos + (pos & -pos))){
+		for(;pos<=40000; pos +=  pos & -pos){
 			AIB[pos] = AIB[pos]+val;
 		}
 	}
@@ -30,21 +48,27 @@ public class TreePropogation {
 	}
 	
 	void DFS(int vtx){
-		isVisited = new boolean[node.length];
+		isVisited = new boolean[node.length+1];
 		disc.add(vtx);
-		Stack<Integer> st = new Stack();
+		Stack<Integer> st = new Stack<Integer>();
 		 st.add(vtx);
-		 while(!st.empty()){
-			 int currVtx = st.pop();
+		 while(!st.isEmpty()){
+			 int currVtx = st.peek();
+			 if(isVisited[currVtx]){
+				 end.add(currVtx);
+				 st.pop();
+				 continue;
+			 }
 			 start.add(currVtx);
-			 isVisited[vtx] = true;
+			 isVisited[currVtx] = true;
 			 List<Integer> nodeList = node[currVtx];
 			 for(Integer curr: nodeList){
-				 if(isVisited[curr] == false)
+				 if(!isVisited[curr]){
 					 disc.add(curr);
 					 st.add(curr);
+				 }	 
 			 }
-			 end.add(currVtx);
+			 
 		 }
 		
 	}
@@ -54,9 +78,10 @@ public class TreePropogation {
 		Scanner scn = new Scanner(System.in);
 		int m = scn.nextInt(), n = scn.nextInt();
 		TreePropogation tp = new TreePropogation();
-		tp.node = new ArrayList[n];
+		tp.node = new ArrayList[n+1];
+		tp.val = new int[n+1];
 		//init
-		for(int i=0; i<n; i++){
+		for(int i=1; i<=n; i++){
 			tp.val[i] = scn.nextInt();
 			tp.node[i] = new ArrayList();
 		}
