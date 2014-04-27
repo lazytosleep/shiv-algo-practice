@@ -27,10 +27,13 @@ public class TreePropogation {
     List<Integer> node[];
 	int[] val = null;
 	boolean[] isVisited;
-	List<Integer> disc = new ArrayList();
-	List<Integer> end = new ArrayList();
+	int[] disc, end, start;
+	/*List<Integer> end = new ArrayList();
 	List<Integer> start = new ArrayList();
+	*/
 	int[] AIB = new int[400002]; 
+	int temp = 1;
+	int temp2 = 2;
 	
 	
 	public void update(int pos, int val){
@@ -47,7 +50,7 @@ public class TreePropogation {
 	    return sum;
 	}
 	
-	void DFS(int vtx){
+	/*void DFS(int vtx){
 		isVisited = new boolean[node.length+1];
 		disc.add(vtx);
 		Stack<Integer> st = new Stack<Integer>();
@@ -70,7 +73,20 @@ public class TreePropogation {
 			 }
 			 
 		 }
-		
+	}*/
+	
+	void DFSRec(int aNode){
+		isVisited[aNode] = true;
+		List<Integer> nodeList = node[aNode];
+		 start[aNode] = temp++;
+		for(Integer n: nodeList){
+			if(!isVisited[n]){
+				 disc[temp2++] = n;
+				DFSRec(n);
+				
+			}	
+		}
+		 end[aNode] = temp++;
 	}
 	
 	public static void main(String[] args) {
@@ -92,23 +108,28 @@ public class TreePropogation {
 			tp.node[other].add(one);
 		}
 		//ready for DFS...do a DFS
-		tp.DFS(1);
+		tp.isVisited = new boolean[tp.node.length+1];
+		tp.disc = new int[tp.node.length+1];
+		tp.start = new int[tp.node.length+1];
+		tp.end = new int[tp.node.length+1];
+		tp.disc[1] = 1;
+		tp.DFSRec(1);
 		//lets do query
 		for(int i=0, type; i<m;i++ ){
 			type = scn.nextInt();
 			if(type ==1){
 				int node = scn.nextInt();
 				int val = scn.nextInt();
-				if(tp.disc.get(node)%2 == 0){
-					tp.update(tp.start.get(node), val);
-	                tp.update(tp.end.get(node), -val);
+				if(tp.disc[node]%2 == 0){
+					tp.update(tp.start[node], val);
+	                tp.update(tp.end[node], -val);
 				}else{
-					 tp.update(tp.end.get(node), -val);
-		             tp.update(tp.start.get(node), val);
+					 tp.update(tp.end[node], -val);
+		             tp.update(tp.start[node], val);
 				}
 			}else{
 				int node = scn.nextInt();
-				if (tp.disc.get(node)% 2 == 0)
+				if (tp.disc[node]% 2 == 0)
 	                res.add(tp.val[node] + tp.query(node));
 	            else
 	            	res.add(tp.val[node] + tp.query(node));
