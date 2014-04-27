@@ -1,17 +1,24 @@
 package CF;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.StringTokenizer;
 
 public class Tree {
 
 	Node root;
 	List<Node> nodeList;
-	
+	 static StringTokenizer st;
+	    static BufferedReader br;
+	    static PrintWriter pw;
 	void addData(Node vertex, int val){
           int localVal = val;
           vertex.val +=val;
@@ -24,14 +31,14 @@ public class Tree {
 	
 	void ansQuery(List queryList){
 		for(Object query: queryList){
-			String[] query1 = (String[])query;
-			int queryType = Integer.parseInt(query1[0]);
-			int vtx = Integer.parseInt(query1[1]);
+			int[] query1 = (int[])query;
+			int queryType = (query1[0]);
+			int vtx = (query1[1]);
 			//Node node = getVertex(vtx);
 			//Node node = bsToFindNode(nodeList, vtx);
 			Node node = nodeList.get(vtx-1);
 			if(queryType == 1){
-				int val = Integer.parseInt(query1[2]);
+				int val = (query1[2]);
 				addData(node,val );
 			}else{
 				System.out.println(node.val);
@@ -69,13 +76,17 @@ public class Tree {
 		return null;
 	}
 	
-	public static void main(String[] args) {
-       Scanner scn = new Scanner(System.in);
-       int nodes = scn.nextInt();
-       int queries= scn.nextInt();
-       scn.nextLine();
-       String[] nodeVal = scn.nextLine().split("\\s");
-       Node[] nodeList = new Node[nodeVal.length];
+	public static void main(String[] args) throws IOException {
+       //Scanner scn = new Scanner(System.in);
+       br = new BufferedReader(new InputStreamReader(System.in));
+       int nodes = nextInt();
+       int queries= nextInt();
+       //scn.nextLine();
+       int[] nodeVal = new int[nodes];
+       for(int i=0; i<nodes; i++){
+    	   nodeVal[i] = nextInt();
+       }
+       //Node[] nodeList = new Node[nodeVal.length];
        List<Node> nList = new ArrayList<Node>(nodeVal.length);
        //Init
        for(int i=0; i<nodeVal.length; i++){
@@ -85,15 +96,14 @@ public class Tree {
        }
        Tree tr = new Tree();
        for(int i=1; i<nodeVal.length; i++){
-    	   String[] edge = scn.nextLine().split("\\s");
-    	   int par = Integer.parseInt(edge[0]);
-    	   int chi = Integer.parseInt(edge[1]);
+    	   int par = nextInt();
+    	   int chi = nextInt();
     	   Node parNode = nList.get(par-1);
     	   if(parNode.idx == -1){
     		   //parNode = new Node();
     		   parNode.idx = par;
     		   parNode.children = new ArrayList<Node>();
-    		   parNode.val = Integer.parseInt(nodeVal[par-1]);
+    		   parNode.val = nodeVal[par-1];
     		   //nList.add(par-1, parNode);
     		   if(par ==1){
     			   tr.root = parNode;
@@ -104,7 +114,7 @@ public class Tree {
     		   //chNode = new Node();
     		   chNode.idx = chi;
     		   chNode.children = new ArrayList<Node>();
-    		   chNode.val = Integer.parseInt(nodeVal[chi-1]);
+    		   chNode.val = nodeVal[chi-1];
     		   //nList.add(chi-1 , chNode);
     	   }
     	   parNode.children.add(chNode);
@@ -113,11 +123,35 @@ public class Tree {
        Collections.sort(tr.nodeList);
        List queryList = new ArrayList();
        for(int i=0; i<queries; i++ ){
-    	   String[] quer = scn.nextLine().split("\\s");
+    	   int[] quer = new int[3];
+    	   int type = nextInt();
+    	   quer[0] = type;
+    	   if(type ==1){
+    		   quer[1] = nextInt();
+    		   quer[2] = nextInt();
+    	   }else{
+    		   quer[1] = nextInt();
+    	   }
+    		   
     	   queryList.add(quer);
        }
        tr.ansQuery(queryList);
 	}
+	
+	private static int nextInt() throws IOException {
+        return Integer.parseInt(next());
+    }
+    private static long nextLong() throws IOException {
+        return Long.parseLong(next());
+    }
+    private static double nextDouble() throws IOException {
+        return Double.parseDouble(next());
+    }
+    private static String next() throws IOException {
+        while (st==null || !st.hasMoreTokens())
+            st = new StringTokenizer(br.readLine());
+        return st.nextToken();
+    }
 
 }
 
