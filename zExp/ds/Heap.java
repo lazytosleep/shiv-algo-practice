@@ -3,18 +3,18 @@ package ds;
 import java.util.Arrays;
 
 public class Heap {
-	
-	
 	int[] heap = null;
+	int length  = 0;
 	Heap(int [] heap){
 		this.heap = heap;
+		length = heap.length;
 	}
 	
 	void heapSort(){
 		buildMaxHeap();
-		for(int i= heap.length-1 ;i>2; i--){
-			exchange(1,i);
-			maxHeapify(1,i);
+		for(int len = length ;len>1;){
+			exchange(0,len-1);
+			maxHeapify(0,--len);
 		}
 	}
 	
@@ -26,26 +26,20 @@ public class Heap {
 	
 	//assumes left and right sub heap are correct but current idx may not confirm to max heap
 	void maxHeapify(int idx, int length){
-		int compIdx=0;
-		int min = 0, minIdx  = idx;
-		
-		if(idx ==0){
-			compIdx = 1;
-		}else{
-			compIdx = idx;
+		int oneIdx=idx+1;
+		int max = heap[idx], maxID  = idx;
+		if(2*oneIdx <=length && max < heap[2*oneIdx -1]){
+			max = heap[2*oneIdx-1];
+			maxID = 2 *oneIdx-1;
 		}
-		if(2*compIdx <length && heap[idx] < heap[2*compIdx]){
-			min = heap[2*compIdx];
-			minIdx = 2 *compIdx;
+		if((2*oneIdx + 1)<=length && heap[2*oneIdx] > max){
+			max = heap[2*oneIdx];
+			maxID = 2 *oneIdx;
 		}
-		if((2*compIdx + 1)<length && heap[2*compIdx +1] > heap[idx]){
-			min = heap[2*compIdx +1];
-			minIdx = 2 *compIdx + 1;
-		}
-		if(minIdx !=idx){
-			heap[minIdx] = heap[idx];
-			heap[idx] = min;
-			maxHeapify(minIdx, length);
+		if(maxID !=idx){
+			heap[maxID] = heap[idx];
+			heap[idx] = max;
+			maxHeapify(maxID, length);
 		}
 	}
 	
@@ -56,7 +50,7 @@ public class Heap {
 	}
 	
 	public static void main(String[] args) {
-		Heap heap = new Heap(new int[]{4,8,2,15,3,19,6});
+		Heap heap = new Heap(new int[]{4,5,13,1,8,22,2,15,3,17,11});
 		heap.heapSort();
 		System.out.println(Arrays.toString(heap.heap));
 	}
