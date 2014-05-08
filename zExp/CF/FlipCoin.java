@@ -18,13 +18,19 @@ public class FlipCoin {
 	}
 	
 	int querySum(int i, int j, int nodeIdx, int startRange, int endRange){
+		Node currNode = arr[nodeIdx];
 		int left = 2*nodeIdx +1;
 		int right = 2*nodeIdx +2;
-		if(i<= startRange && j>=endRange){
+		if(i<= startRange && j>=endRange && !currNode.isStale ){
 			return arr[nodeIdx].val;
 		}
 		int mid = (startRange + endRange)/2;
-		return min(querySum(i, j, left, startRange, mid),querySum(i, j, right,mid+1 ,endRange));
+		int sum =  min(querySum(i, j, left, startRange, mid),querySum(i, j, right,mid+1 ,endRange));
+		if(currNode.isStale && !arr[left].isStale && !arr[right].isStale){
+			currNode.isStale = false;
+			currNode.val = sum;
+		}
+		return sum;
 	}
 	
 	void update(int val, int i, int j, int nodeIdx, int startRange, int endRange){
