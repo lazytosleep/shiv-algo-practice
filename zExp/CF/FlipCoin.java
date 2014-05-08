@@ -7,7 +7,8 @@ public class FlipCoin {
 	int n;
 	static class Node{
 		int val;
-		int updateFlag;
+		int propogate;
+		boolean isStale;
 	}
 	
 	void init(){
@@ -26,8 +27,23 @@ public class FlipCoin {
 		return min(querySum(i, j, left, startRange, mid),querySum(i, j, right,mid+1 ,endRange));
 	}
 	
-	void update(int val, int i, int j){
-		
+	void update(int val, int i, int j, int nodeIdx, int startRange, int endRange){
+		 Node node = arr[nodeIdx];
+		 node.isStale = true;
+		 if(i<= startRange && j >= endRange){
+			node.propogate = val;
+		 }else{
+		    int mid = (startRange + endRange)/2;
+			int left = 2*nodeIdx +1;
+			int right = 2*nodeIdx +2;
+			if(i<=mid){
+				update(val, i, j, left, startRange, mid);
+			}
+			if(j>mid){
+				update(val, i, j, right, mid+1, endRange);
+			}
+		 	 
+		 }
 	}
 	
 	int min(int i, int j){
