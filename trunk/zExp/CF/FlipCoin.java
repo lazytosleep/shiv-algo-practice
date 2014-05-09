@@ -63,6 +63,8 @@ public class FlipCoin {
 		int left = 2 * nodeIdx +1;
 		int right = 2* nodeIdx +2;
 		if(2*nodeIdx+1 < arr.length) {
+		int propVal  = arr[left].propogate;
+		if(propVal !=0)val +=propVal;
 		propogateTillLeaf(2*nodeIdx+1, val);
 		}else{
 			//this is leaf as no left child
@@ -70,10 +72,13 @@ public class FlipCoin {
 			return;
 		}
 		if(2*nodeIdx +2 < arr.length){
+			int propVal  = arr[right].propogate;
+			if(propVal !=0)val +=propVal;
 		propogateTillLeaf(2*nodeIdx+2, val);
 		}
 		arr[nodeIdx].val = sum(arr[left].val , arr[right].val);
 		arr[nodeIdx].isStale = false;
+		arr[nodeIdx].propogate = 0;
 		
 	}
 	
