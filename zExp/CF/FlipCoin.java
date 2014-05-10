@@ -12,12 +12,16 @@ public class FlipCoin {
 	}
 	
 	void init(){
+		arr = new Node[n];
 		for(int i=0; i<n; i++){
 			arr[i] = new Node();
 		}
 	}
 	
 	int querySum(int i, int j, int nodeIdx, int startRange, int endRange){
+		if(nodeIdx >=arr.length ||  i>endRange || j < startRange){
+			return 0;
+		}
 		Node currNode = arr[nodeIdx];
 		int left = 2*nodeIdx +1;
 		int right = 2*nodeIdx +2;
@@ -27,9 +31,7 @@ public class FlipCoin {
 		}
 		if(i<= startRange && j>=endRange && !currNode.isStale ){
 			return arr[nodeIdx].val;
-		}else if( i>endRange || j < startRange){
-			return 0;
-		}
+		} 
 		
 		int mid = (startRange + endRange)/2;
 		int sum =  sum(querySum(i, j, left, startRange, mid),querySum(i, j, right,mid+1 ,endRange));
@@ -41,10 +43,16 @@ public class FlipCoin {
 	}
 	//propogate till the range become subset i,j
 	void update(int val, int i, int j, int nodeIdx, int startRange, int endRange){
+		 if(nodeIdx >= arr.length)return;
 		 Node node = arr[nodeIdx];
 		 node.isStale = true;
 		 if(i<= startRange && j >= endRange){
-			node.propogate = val;
+			 //if leaf node
+			 if(startRange == endRange){
+				 node.isStale = false;
+				 node.val +=val;
+			 }else
+			 node.propogate = val;
 		 }else{
 		    int mid = (startRange + endRange)/2;
 			int left = 2*nodeIdx +1;
@@ -59,24 +67,32 @@ public class FlipCoin {
 		 }
 	}
 	
+	boolean isLeafNode(int idx){
+		//should not have left child
+		return (2*idx +1 >=arr.length);
+	}
+	
 	void propogateTillLeaf(int nodeIdx, int val){
 		int left = 2 * nodeIdx +1;
 		int right = 2* nodeIdx +2;
-		if(2*nodeIdx+1 < arr.length) {
-		int propVal  = arr[left].propogate;
-		if(propVal !=0)val +=propVal;
-		propogateTillLeaf(2*nodeIdx+1, val);
-		}else{
+		int sum =0;
+		if(isLeafNode(nodeIdx)) {
 			//this is leaf as no left child
 			arr[nodeIdx].val +=val;
 			return;
+		}else{
+			int propVal  = arr[left].propogate;
+			if(propVal !=0)val +=propVal;
+			propogateTillLeaf(left, val);
+			sum += arr[left].val;
 		}
 		if(2*nodeIdx +2 < arr.length){
 			int propVal  = arr[right].propogate;
 			if(propVal !=0)val +=propVal;
-		propogateTillLeaf(2*nodeIdx+2, val);
+		propogateTillLeaf(right, val);
+		sum+= arr[right].val;
 		}
-		arr[nodeIdx].val = sum(arr[left].val , arr[right].val);
+		arr[nodeIdx].val = sum;
 		arr[nodeIdx].isStale = false;
 		arr[nodeIdx].propogate = 0;
 		
@@ -85,5 +101,17 @@ public class FlipCoin {
 	int sum(int i, int j){
 		return i+j;
 	}
+	
+	public static void main(String[] args) {
+		FlipCoin fc = new FlipCoin();
+		fc.n = 7;
+		//Max size height of tree
+		fc.init();
+		fc.update(1, 0, 2, 0, 0, 3);
+		fc.update(4, 2, 3, 0, 0, 3);
+		System.out.println(fc.querySum(1, 2, 0, 0, 3));
+		
+	}
+	
 
 }
