@@ -11,8 +11,12 @@ public class FlipCoin {
 		boolean isStale;
 	}
 	
-	void init(){
-		arr = new Node[n];
+	void init(int leafNodes){
+		//height of binary tree
+		int internalNodes = leafNodes-1;
+		int totalNodes = leafNodes + internalNodes;
+		n = totalNodes;
+		arr = new Node[totalNodes];
 		for(int i=0; i<n; i++){
 			arr[i] = new Node();
 		}
@@ -104,9 +108,9 @@ public class FlipCoin {
 	
 	public static void main(String[] args) {
 		FlipCoin fc = new FlipCoin();
-		fc.n = 7;
+	    int noOfElements = 4;
 		//Max size height of tree
-		fc.init();
+		fc.init(noOfElements);
 		fc.update(1, 0, 2, 0, 0, 3);
 		fc.update(4, 2, 3, 0, 0, 3);
 		System.out.println(fc.querySum(1, 2, 0, 0, 3));
