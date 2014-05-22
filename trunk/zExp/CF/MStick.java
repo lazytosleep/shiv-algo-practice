@@ -10,14 +10,14 @@ public class MStick {
 	
 	float arr[];
 	float segTree[];
-	
+	int oldValToRestore = -1;
 	void init(){
 		int size = arr.length -1 + arr.length;
 		segTree = new float[size];
 		buildMinTree(0, 0, arr.length-1);
 	}
 	
-	float buildMinTree(int node, int start, int end){
+	float buildMaxTree(int node, int start, int end){
 		if(start == end){
 			segTree[node] = arr[start];
 			return segTree[node];
@@ -25,42 +25,53 @@ public class MStick {
 		int mid = (start + end)/2;
 		float left = buildMinTree(2*node +1, start, mid);
 		float right = buildMinTree(2*node +2, mid+1, end);
-		segTree[node] = left<right? left : right;
-		return segTree[node];
+		return segTree[node] = left>right? left : right;
 	}
 	
-	float update(int node, int start, int end, int l, int r, float val){
+	float updateMaxTree(int node, int start, int end, int l, int r, float val, boolean revert){
 		if(start == end){
+			if(!revert)
 			segTree[node] = (segTree[node] - val)/2;
+			else
+			segTree[node] = segTree[node] *2 + val;
 			return segTree[node];
 		}
 		int mid = (start+end)/2;
-		if(l<=start && r>=end){
-			float left = update(2*node +1, start, mid, l,r,val);
-			float right = update(2*node +2, mid+1, end, l,r,val);
-			return segTree[node]= left<right?left:right;
-		}
 		if(l<=mid){
-			update(2*node +1, start, mid, l,r,val);
+			updateMaxTree(2*node +1, start, mid, l,r,val, revert);
 		}
 		if(r>=mid+1){
-			update(2*node +2, mid+1, end, l,r,val);
+			updateMaxTree(2*node +2, mid+1, end, l,r,val, revert);
 		}
-		return 0;
+		return segTree[node] = max(segTree[2*node+1], segTree[2*node+2]);
 	}
 	
+	float findMax(int node, int start, int end, int l, int r){
+			if(l<=start && end <=r){
+			   return segTree[node]
+			}
+			int mid = (start +end)/2;
+			if(mid<=r){
+			  return findMax(2*node+1, start, mid, l,r);
+			}
+			if(mid+1 >=l){
+				return findMax(2*node+2, mid+1, end, l, r);
+			}
+			return max(findMax(2*node+1, start, mid, l,r), findMax(2*node+2, mid+1, end, l, r));
+	
+	}
+	
+	float max(float i, floatj){
+		return i>j?i:j;
+	}
 	float findMin(int node, int start, int end, int l, int r){
 		if(l<=start && end<=r){
 			return segTree[node];
 		}
 		int mid = (start+end)/2;
-		
-		if(l<=mid && mid+1 <=r){
-			return min(findMin(2+node+1, start, mid, l, r),findMin(2+node+2, mid+1, end, l, r));
-		}
 		if(r<=mid)return findMin(2+node+1, start, mid, l, r);
-		if(l>=mid+1) findMin(2+node+2, mid+1, end, l, r);
-		return 0;
+		if(l>=mid+1) return findMin(2+node+2, mid+1, end, l, r);
+		return min(findMin(2+node+1, start, mid, l, r),findMin(2+node+2, mid+1, end, l, r));
 	}
 	
 	float min(float i, float j){
@@ -68,10 +79,33 @@ public class MStick {
 	}
 	
 	float solve(int i, int j){
+        int max1, max2, max3 =0;		
+		if(i-1>0){
+		    max1 = findMax(0, 0, arr.lenght, 0, i-1 );
+		}
+		max2 = findMax(0, 0, arr.lenght, i, j );
+		if(j+1<arr.length){
+			max3 = findMax(0, 0, arr.lenght, j+1, arr.length-1 );
+		}
+		int tempTime = 0;
+		if(max2 >=max1 && max2>=max3){
+		    if(oldValToRestore ==-1){
+			  float min = findMin(0, 0, arr.lenght, i, j);
+			  updateMaxTree(0, 0, arr.length, i, j, min, false);
+			  oldValToRestore = min;
+			}else{
+			   updateMaxTree(0, 0, arr.length, i, j, oldValToRestore, true);
+			   float min = findMin(0, 0, arr.lenght, i, j);
+			   updateMaxTree(0, 0, arr.length, i, j, min, false);
+			    oldValToRestore = min;
+			}
+		   max2 = findMax(0, 0, arr.lenght, i, j);
+		   tempTime = oldValToRestore;
+		}
+		int time = max(max2, max(max1, max3));
+		int totalTime = time + tempTime;
 		
-		int min1= findMin(0,i-1);
-		
-	    return max+min;
+	    return totalTime;
 	}
 	
 	public static void main(String[] args) {
