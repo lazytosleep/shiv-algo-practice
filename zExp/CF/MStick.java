@@ -43,7 +43,7 @@ public class MStick {
 		if(l<=mid){
 			update(2*node +1, start, mid, l,r,val);
 		}
-		if(r>mid+1){
+		if(r>=mid+1){
 			update(2*node +2, mid+1, end, l,r,val);
 		}
 		return 0;
