@@ -16,13 +16,13 @@ public class DP_10684 {
 				arr[i] = scn.nextInt();
 			}
 			
-			int [] minArr = new int[size];
-			minArr[0] = arr[0];
-			int absMax = minArr[0] ;
+			int [] maxArr = new int[size];
+			maxArr[0] = arr[0];
+			int absMax = maxArr[0] ;
 			for(int i=1; i<size; i++){
 				int curr = arr[i];
-				minArr[i] = minArr[i-1] + curr <curr ? curr : minArr[i-1] + curr;
-				absMax = minArr[i] > absMax ? minArr[i] : absMax;
+				maxArr[i] = maxArr[i-1] + curr <curr ? curr : maxArr[i-1] + curr;
+				absMax = maxArr[i] > absMax ? maxArr[i] : absMax;
 			}
 			if(absMax>0){
 				pw.println(String.format("The maximum winning streak is %d.", absMax));
