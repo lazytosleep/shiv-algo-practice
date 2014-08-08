@@ -1,5 +1,9 @@
 package uva;
 
+/**
+ * For each connected component, color nodes with true and false, pick the min true or false 
+ */
+
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
