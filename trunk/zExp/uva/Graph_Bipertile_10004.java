@@ -1,7 +1,7 @@
 package uva;
 
 /**
- * For each connected component, color nodes with true and false, pick the min true or false 
+ * For each connected component, color nodes with true and false(use DFS or BFS), pick the min true or false 
  */
 
 import java.io.PrintWriter;
