@@ -2,7 +2,14 @@ package uva;
 
 import java.io.PrintWriter;
 import java.util.Scanner;
-
+/**
+ * 
+ * @author shivendra
+ * rec function for LCS:
+ *   f(i,j) = |f(i-1, j-1)+1 if charat(i)== charat(j)
+ *			  |max(f(i-1), f(j-1)) else
+ * where i,j is index of last char in str1 & str2 respectivly 
+ */
 public class DP_LCS_10405 {
 	
 	public static void main(String[] args) {
