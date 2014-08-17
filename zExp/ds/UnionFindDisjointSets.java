@@ -16,5 +16,18 @@ public class UnionFindDisjointSets {
 	static boolean isSameSet(int i, int j){
 		return findSet(i) == findSet(j);
 	}
+	//return no of top level elements
+	static int noOfSets(){
+		int count = 0;
+		for(int i=0; i<parent.length; i++){
+			if(parent[i] == i) count++;
+		}
+		return count;
+	}
+	//return size of set which contains item i
+	//TODO
+	static int sizeOfSet(int i){
+		return 0;
+	}
 
 }
