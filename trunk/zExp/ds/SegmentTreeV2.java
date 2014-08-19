@@ -49,11 +49,21 @@ public class SegmentTreeV2 {
 		
 	}
 	
-	static void update(){
-		
+	static void update(int i, int j, int updateVal, int node, int l, int r){
+		if(i>r || j<l)return;
+		if(l==r){
+			segmentTree[node] += updateVal;
+		}else{
+			int mid = (l+r)/2;
+			update(i,j,updateVal, 2*node +1, l, mid);
+			update(i,j,updateVal, 2*node +2, mid+1, r);
+			if(currOper == oper.min) segmentTree[node] = Math.min(segmentTree[2*node+1], segmentTree[2*node +2]);
+			else if(currOper == oper.max) segmentTree[node] = Math.max(segmentTree[2*node+1], segmentTree[2*node +2]);
+			else if(currOper == oper.sum) segmentTree[node] = segmentTree[2*node+1] + segmentTree[2*node +2];
+		}
 	}
-	
-	static void lazyUpdate(){
+	//TODO
+	static void lazyUpdate(int i, int j, int node, int l, int r){
 		
 	}
 	
@@ -63,13 +73,19 @@ public class SegmentTreeV2 {
 		currOper = oper.max;
 		buildSegTree(array, 0, 0, array.length-1);
 		System.out.println(query(0,4,0,0,array.length-1) + " :: "+ query(3,4,0,0,array.length-1));
+		update(3, 4, 4, 0, 0, array.length-1);
+		System.out.println(query(0,4,0,0,array.length-1) + " :: "+ query(3,4,0,0,array.length-1));
 		init();
 		currOper = oper.min;
 		buildSegTree(array, 0, 0, array.length-1);
 		System.out.println(query(0,4,0,0,array.length-1) + " :: "+ query(3,4,0,0,array.length-1));
+		update(3, 4, 4, 0, 0, array.length-1);
+		System.out.println(query(0,4,0,0,array.length-1) + " :: "+ query(3,4,0,0,array.length-1));
 		init();
 		currOper = oper.sum;
 		buildSegTree(array, 0, 0, array.length-1);
+		System.out.println(query(0,4,0,0,array.length-1) + " :: "+ query(3,4,0,0,array.length-1));
+		update(3, 4, 4, 0, 0, array.length-1);
 		System.out.println(query(0,4,0,0,array.length-1) + " :: "+ query(3,4,0,0,array.length-1));
 		
 	}
