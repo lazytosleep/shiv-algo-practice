@@ -1,5 +1,6 @@
 package uva;
 
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Grpah_OilDepo_572 {
@@ -11,8 +12,13 @@ public class Grpah_OilDepo_572 {
 	static int rows, col;
 	public static void main(String[] args) {
 		Scanner scn = new Scanner(System.in);
-		while((rows = scn.nextInt())!=0){
-			col = scn.nextInt();
+		String line ="";
+		PrintWriter pw = new PrintWriter(System.out);
+		while((line = scn.nextLine())!=null){
+			String[] arr = line.split("\\s");
+			rows = Integer.parseInt(arr[0]);
+			if(rows == 0)break;
+			col = Integer.parseInt(arr[1]);
 			graph = new char[rows][col];
 			isSeen = new boolean[rows][col];
 			components = 0;
@@ -29,17 +35,18 @@ public class Grpah_OilDepo_572 {
 					}
 				}
 			}
-			System.out.println("Comp "+components);
+			pw.println(components);
 		}
+		pw.close();
 		
 		
 	}
 	
 	static void DFS(int i, int j){
 		isSeen[i][j] = true;
-		for(int x=i-1; x<=i+1; i++){
-			for(int y=j-1; y<=j+1; j++ ){
-				if(inRange(x, y) && !isSeen[x][y]){
+		for(int x=i-1; x<=i+1; x++){
+			for(int y=j-1; y<=j+1; y++ ){
+				if(inRange(x, y) && !isSeen[x][y] && graph[i][j] == '@'){
 					DFS(x,y);
 				}
 			}
