@@ -19,7 +19,7 @@ public class ThreadPool {
 		}
 	}
 	
-	public void addTask(Task task){
+	public void execute(Task task){
 		synchronized (workQueue) {
 		  workQueue.add(task);
 		  workQueue.notifyAll();
@@ -67,7 +67,7 @@ public class ThreadPool {
 		ThreadPool pool = new ThreadPool(5);
 		for(int i=0; i<20; i++){
 			ThreadPool.Task t = pool.new Task("task "+i);
-			pool.addTask(t);
+			pool.execute(t);
 		}
 		
 	}
