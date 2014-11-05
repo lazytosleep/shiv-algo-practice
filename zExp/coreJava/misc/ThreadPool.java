@@ -19,11 +19,16 @@ public class ThreadPool {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void execute(Task task){
 		synchronized (workQueue) {
 		  workQueue.add(task);
 		  workQueue.notifyAll();
 		}
+	}
+	//gracious shutdown is must for pool, which would wait for running tasks and wont a accept any new task
+	public void shutdown(){
+		
 	}
 	
 	class Worker extends Thread{
@@ -47,6 +52,7 @@ public class ThreadPool {
 			}
 		}
 	}
+	
 	//generally task implements runnable
 	class Task{
 		String work ;
