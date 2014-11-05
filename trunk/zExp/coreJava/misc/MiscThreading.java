@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -57,6 +58,39 @@ class BloackingSyncedMap{
 }
 
 //Write micro benachmark without using iteration,rather than doing iteration just run number of threads
+
+class Microbenchmark{
+	
+	CountDownLatch startLatch = new CountDownLatch(1);
+	CountDownLatch endLatch = new CountDownLatch(100);
+	
+	void profile(final Runnable task) throws InterruptedException{
+		
+		for(int i=0; i<100; i++){
+			Runnable run = new Runnable(){
+				@Override
+				public void run() {
+					try {
+						startLatch.await();
+					} catch (InterruptedException e) {
+						
+					}
+					task.run();
+					endLatch.countDown();
+				}
+			};
+			Thread th = new Thread(run);
+			th.start();
+			startLatch.countDown();
+			endLatch.await();
+			
+			
+		}
+		
+		
+	}
+	
+}
 
 
 
