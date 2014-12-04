@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -95,5 +96,21 @@ class Microbenchmark{
 
 
 //returning a result from task running on different thread
+
+class FutureTask{
+	
+	void runTask{
+		
+		Callable call = new Callable(){
+
+			@Override
+			public Object call() throws Exception {
+				// do the work
+				return null;
+			}
+			
+		};
+	}
+}
 
 //java Timer thread and TimerTask
