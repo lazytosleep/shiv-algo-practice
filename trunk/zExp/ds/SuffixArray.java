@@ -1,5 +1,7 @@
 package ds;
 
+import java.util.Arrays;
+
 
 
 
@@ -9,7 +11,7 @@ public class SuffixArray {
 	    	buildSA();
 		}
 	
-		static String str = "acacag";
+		static String str = "ttggttgg";
 		static int[] sa =new int[str.length()];
 		static int[] rank=new int[str.length()];;
 		static int[] temp=new int[str.length()];;
@@ -22,7 +24,7 @@ public class SuffixArray {
 				rank[i] = str.charAt(i);
 			}
 			
-			for(gap=0; (1<<gap)<n; gap++){
+			for(gap=-1; (1<<gap)<n; gap++){
 				temp = new int[n];
 				sort(sa, 0, n-1);
 				int cnt = 0;
@@ -33,9 +35,9 @@ public class SuffixArray {
 				if(cnt==n-1)break;
 				rank = temp;
 			}
-			System.out.println(sa);
+			System.out.println(Arrays.toString(sa));
 		}
-		
+		//quick sort
 		static void sort(int [] arr, int st, int end){
 			if(st<end){
 				int x = findIdx(arr, st, end);
@@ -63,12 +65,14 @@ public class SuffixArray {
 		}
 		
 		static int comprator(int i, int j){
-			if(gap ==0 || rank[i] !=rank[j]){
+			if(gap ==-1 || rank[i] !=rank[j]){
 				return (rank[i] < rank[j]) ? 1: 0;
 			}
 			i+=(1<<gap);
 			j+=(1<<gap);
-			if(i >n-1 || j > n-1) return (i<j)?0:1 ;
+			if(i >n-1 || j > n-1){
+				return (i<j)?0:1 ;
+			}
 			return ((rank[i] < rank[j]) ? 1 : 0);
 		}
 		
